@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="voice_intents">
+        <item>navigation</item>
+        <item>book_cab</item>
+    </array>
+</resources>
