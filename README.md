@@ -2,6 +2,12 @@
 A simple log helper which helps you to log in a whole different level
 	- You can enable and disable logs
 	- Can print method names when necessary
+##Include library
+Including logger is very simple
+```groovy
+compile 'com.github.sujithkanna:logger:0.3'
+```
+add this to your dependencies in build.gradle.
 ##Import
 ```java
 import com.hsalf.logger.Log;
