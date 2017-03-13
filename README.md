@@ -14,6 +14,16 @@ Prints the message like the android default log does.
 	-``` Log.d(...);``` - Debug
 	-``` Log.i(...);``` - Info
 	-``` Log.w(...);``` - Warning
+##Enabling/Disabling
+To enable logs
+```java
+Log.enable()
+```
+To disable logs
+```java
+Log.disable();
+```
+Note: *The speciality of this is internally it wont check each and everytime using a boolean to check if the log is enabled, instead it switches between modes. Basically there are two instacnes of log inside this Log.java file, One is empty and other is live. If you enable the logs, the love one will be used to print logs, if you disable logs, then the live log instance will be replaced with empty log instance which prints nothing. This way we can avoid unnecessary checks before printing logs.*
 ##Logging
 ```java
 Log.i(TAG, "Hello log");
@@ -154,5 +164,3 @@ If you know that you always need the class name ad method name even in release m
 Log.v("Your log message");
 ```
 Note: *It is highly recommended not to use auto detection in frequent places like loops, inputstream reads etc...*
-
-
