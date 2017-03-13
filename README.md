@@ -23,7 +23,7 @@ To disable logs
 ```java
 Log.disable();
 ```
-Note: *The speciality of this is internally it wont check each and everytime using a boolean to check if the log is enabled, instead it switches between modes. Basically there are two instacnes of log inside this Log.java file, One is empty and other is live. If you enable the logs, the love one will be used to print logs, if you disable logs, then the live log instance will be replaced with empty log instance which prints nothing. This way we can avoid unnecessary checks before printing logs.*
+Note: *The speciality of this is internally it wont check each and every time using a boolean to detect if the log is enabled, instead it switches between modes. Basically there are two instacnes of log inside this Log.java file, One is empty and other is live. If you enable the logs, the live one will be used to print logs, if you disable logs, then the live log instance will be replaced with empty log instance which prints nothing. This way we can avoid unnecessary checks before printing logs.*
 ##Logging
 ```java
 Log.i(TAG, "Hello log");
