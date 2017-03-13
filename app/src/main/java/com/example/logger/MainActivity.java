@@ -19,5 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void myMethod() {
         Log.i(TAG, "Just a text", new Throwable(), true);
+        Log.v("My message");
     }
 }

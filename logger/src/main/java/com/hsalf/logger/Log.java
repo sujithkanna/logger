@@ -1,13 +1,18 @@
 package com.hsalf.logger;
 
+import android.content.Context;
+
+import java.lang.reflect.Field;
+import java.util.regex.Pattern;
+
 public class Log {
     private static final String TAG = "Log";
 
-    private static final int METHOD_INDEX = 6;
+    private static final int detect_INDEX = 6;
 
     private static Log sLog = new Log();
 
-    private boolean mDisableOnRelease = false;
+    private boolean mAutoName = true;
 
     private LogAlive mLogAlive = new LogAlive(); // Enabled log instance
     private LogEmpty mLogEmpty = new LogEmpty(); // Disabled log instance
@@ -17,21 +22,31 @@ public class Log {
     private Log() {
     }
 
-    /**
-     * Disables the logs on release build
-     *
-     * @param disable true if the logs has to be disabled in release build
-     *                false to enable logs even in release build
-     *                If disabled, then it cant be enabled by ({@link #enable()})
-     */
-    public static void disableOnRelease(boolean disable) {
-        synchronized (TAG) {
-            sLog.mDisableOnRelease = disable;
+    public static boolean isDebuggable(Context context) {
+        try {
+            final String packageName = context.getPackageName();
+            final Class<?> buildConfig = Class.forName(packageName + ".BuildConfig");
+            final Field DEBUG = buildConfig.getField("DEBUG");
+            DEBUG.setAccessible(true);
+            return DEBUG.getBoolean(null);
+        } catch (final Throwable t) {
+            // ignore
         }
-        if (!BuildConfig.DEBUG && disable) {
-            disable();
-        } else {
-            enable();
+        return false;
+    }
+
+    /**
+     * Enable/Disable auto name detection
+     *
+     * @param enable true to enable class and detect name auto detection (which is expensive)
+     *               false to disable auto name detection
+     *               <p>
+     *               Highly recommended not to enable in release mode
+     */
+    public static void enableAutoNameDetection(boolean enable) {
+        synchronized (TAG) {
+            android.util.Log.e(TAG, "Debug: " + enable);
+            sLog.mAutoName = enable;
         }
     }
 
@@ -40,9 +55,6 @@ public class Log {
      */
     public static void enable() {
         synchronized (TAG) {
-            if (sLog.mDisableOnRelease) {
-                return;
-            }
             sLog.mBaseLog = sLog.mLogAlive;
         }
     }
@@ -56,15 +68,21 @@ public class Log {
         }
     }
 
+    public static void i(String msg) {
+        synchronized (TAG) {
+            sLog.mBaseLog.i(msg);
+        }
+    }
+
     public static void i(String tag, String msg) {
         synchronized (TAG) {
             sLog.mBaseLog.i(tag, msg);
         }
     }
 
-    public static void i(String tag, String msg, boolean methodNameNeeded) {
+    public static void i(String tag, String msg, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.i(tag, msg, methodNameNeeded);
+            sLog.mBaseLog.i(tag, msg, detect);
         }
     }
 
@@ -75,9 +93,15 @@ public class Log {
         }
     }
 
-    public static void i(String tag, String msg, Throwable thr, boolean method) {
+    public static void i(String tag, String msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.i(tag, msg, thr, method);
+            sLog.mBaseLog.i(tag, msg, thr, detect);
+        }
+    }
+
+    public static void d(String msg) {
+        synchronized (TAG) {
+            sLog.mBaseLog.d(msg);
         }
     }
 
@@ -87,9 +111,9 @@ public class Log {
         }
     }
 
-    public static void d(String tag, String msg, boolean methodNameNeeded) {
+    public static void d(String tag, String msg, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.d(tag, msg, methodNameNeeded);
+            sLog.mBaseLog.d(tag, msg, detect);
         }
     }
 
@@ -100,9 +124,15 @@ public class Log {
         }
     }
 
-    public static void d(String tag, String msg, Throwable thr, boolean method) {
+    public static void d(String tag, String msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.d(tag, msg, thr, method);
+            sLog.mBaseLog.d(tag, msg, thr, detect);
+        }
+    }
+
+    public static void e(String msg) {
+        synchronized (TAG) {
+            sLog.mBaseLog.e(msg);
         }
     }
 
@@ -112,9 +142,9 @@ public class Log {
         }
     }
 
-    public static void e(String tag, String msg, boolean methodNameNeeded) {
+    public static void e(String tag, String msg, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.e(tag, msg, methodNameNeeded);
+            sLog.mBaseLog.e(tag, msg, detect);
         }
     }
 
@@ -124,9 +154,15 @@ public class Log {
         }
     }
 
-    public static void e(String tag, String msg, Throwable thr, boolean method) {
+    public static void e(String tag, String msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.e(tag, msg, thr, method);
+            sLog.mBaseLog.e(tag, msg, thr, detect);
+        }
+    }
+
+    public static void w(String msg) {
+        synchronized (TAG) {
+            sLog.mBaseLog.w(msg);
         }
     }
 
@@ -136,9 +172,9 @@ public class Log {
         }
     }
 
-    public static void w(String tag, String msg, boolean methodNameNeeded) {
+    public static void w(String tag, String msg, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.w(tag, msg, methodNameNeeded);
+            sLog.mBaseLog.w(tag, msg, detect);
         }
     }
 
@@ -148,9 +184,15 @@ public class Log {
         }
     }
 
-    public static void w(String tag, String msg, Throwable thr, boolean method) {
+    public static void w(String tag, String msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.w(tag, msg, thr, method);
+            sLog.mBaseLog.w(tag, msg, thr, detect);
+        }
+    }
+
+    public static void v(String msg) {
+        synchronized (TAG) {
+            sLog.mBaseLog.v(msg);
         }
     }
 
@@ -160,9 +202,9 @@ public class Log {
         }
     }
 
-    public static void v(String tag, String msg, boolean method) {
+    public static void v(String tag, String msg, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.v(tag, msg, method);
+            sLog.mBaseLog.v(tag, msg, detect);
         }
     }
 
@@ -172,9 +214,9 @@ public class Log {
         }
     }
 
-    public static void v(String tag, String msg, Throwable thr, boolean method) {
+    public static void v(String tag, String msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
-            sLog.mBaseLog.v(tag, msg, thr, method);
+            sLog.mBaseLog.v(tag, msg, thr, detect);
         }
     }
 
@@ -182,13 +224,19 @@ public class Log {
      * Active log which logs
      */
     private static class LogAlive extends BaseLog {
+        @Override
+        public void i(String msg) {
+            i(prepareTag(null, true), msg);
+        }
+
+        @Override
         public void i(String tag, String msg) {
             android.util.Log.i(tag, msg);
         }
 
         @Override
-        public void i(String tag, String msg, boolean method) {
-            i(tag + methodName(method), msg);
+        public void i(String tag, String msg, boolean detect) {
+            i(prepareTag(tag, detect), msg);
         }
 
         @Override
@@ -197,17 +245,23 @@ public class Log {
         }
 
         @Override
-        public void i(String tag, String msg, Throwable thr, boolean method) {
-            i(tag + methodName(method), msg, thr);
+        public void i(String tag, String msg, Throwable thr, boolean detect) {
+            i(prepareTag(tag, detect), msg, thr);
         }
 
+        @Override
+        public void d(String msg) {
+            d(prepareTag(null, true), msg);
+        }
+
+        @Override
         public void d(String tag, String msg) {
             android.util.Log.d(tag, msg);
         }
 
         @Override
-        public void d(String tag, String msg, boolean method) {
-            d(tag + methodName(method), msg);
+        public void d(String tag, String msg, boolean detect) {
+            d(prepareTag(tag, detect), msg);
         }
 
         @Override
@@ -216,17 +270,23 @@ public class Log {
         }
 
         @Override
-        public void d(String tag, String msg, Throwable thr, boolean method) {
-            d(tag + methodName(method), msg, thr);
+        public void d(String tag, String msg, Throwable thr, boolean detect) {
+            d(prepareTag(tag, detect), msg, thr);
         }
 
+        @Override
+        public void e(String msg) {
+            e(prepareTag(null, true), msg);
+        }
+
+        @Override
         public void e(String tag, String msg) {
             android.util.Log.e(tag, msg);
         }
 
         @Override
-        public void e(String tag, String msg, boolean method) {
-            e(tag + methodName(method), msg);
+        public void e(String tag, String msg, boolean detect) {
+            e(prepareTag(tag, detect), msg);
         }
 
         @Override
@@ -235,17 +295,23 @@ public class Log {
         }
 
         @Override
-        public void e(String tag, String msg, Throwable thr, boolean method) {
-            e(tag + methodName(method), msg, thr);
+        public void e(String tag, String msg, Throwable thr, boolean detect) {
+            e(prepareTag(tag, detect), msg, thr);
         }
 
+        @Override
+        public void w(String msg) {
+            w(prepareTag(null, true), msg);
+        }
+
+        @Override
         public void w(String tag, String msg) {
             android.util.Log.w(tag, msg);
         }
 
         @Override
-        public void w(String tag, String msg, boolean method) {
-            w(tag + methodName(method), msg);
+        public void w(String tag, String msg, boolean detect) {
+            w(prepareTag(tag, detect), msg);
         }
 
         @Override
@@ -254,8 +320,13 @@ public class Log {
         }
 
         @Override
-        public void w(String tag, String msg, Throwable thr, boolean method) {
-            w(tag + methodName(method), msg, thr);
+        public void w(String tag, String msg, Throwable thr, boolean detect) {
+            w(prepareTag(tag, detect), msg, thr);
+        }
+
+        @Override
+        public void v(String msg) {
+            v(prepareTag(null, true), msg);
         }
 
         @Override
@@ -264,8 +335,8 @@ public class Log {
         }
 
         @Override
-        public void v(String tag, String msg, boolean method) {
-            v(tag + methodName(method), msg);
+        public void v(String tag, String msg, boolean detect) {
+            v(prepareTag(tag, detect), msg);
         }
 
         @Override
@@ -274,8 +345,8 @@ public class Log {
         }
 
         @Override
-        public void v(String tag, String msg, Throwable thr, boolean method) {
-            v(tag + methodName(method), msg, thr);
+        public void v(String tag, String msg, Throwable thr, boolean detect) {
+            v(prepareTag(tag, detect), msg, thr);
         }
     }
 
@@ -285,12 +356,17 @@ public class Log {
     private static class LogEmpty extends BaseLog {
 
         @Override
+        public void i(String msg) {
+
+        }
+
+        @Override
         public void i(String tag, String msg) {
 
         }
 
         @Override
-        public void i(String tag, String msg, boolean method) {
+        public void i(String tag, String msg, boolean detect) {
 
         }
 
@@ -300,7 +376,12 @@ public class Log {
         }
 
         @Override
-        public void i(String tag, String msg, Throwable thr, boolean method) {
+        public void i(String tag, String msg, Throwable thr, boolean detect) {
+
+        }
+
+        @Override
+        public void d(String msg) {
 
         }
 
@@ -310,7 +391,7 @@ public class Log {
         }
 
         @Override
-        public void d(String tag, String msg, boolean method) {
+        public void d(String tag, String msg, boolean detect) {
 
         }
 
@@ -320,7 +401,12 @@ public class Log {
         }
 
         @Override
-        public void d(String tag, String msg, Throwable thr, boolean method) {
+        public void d(String tag, String msg, Throwable thr, boolean detect) {
+
+        }
+
+        @Override
+        public void e(String msg) {
 
         }
 
@@ -330,7 +416,7 @@ public class Log {
         }
 
         @Override
-        public void e(String tag, String msg, boolean method) {
+        public void e(String tag, String msg, boolean detect) {
 
         }
 
@@ -340,7 +426,12 @@ public class Log {
         }
 
         @Override
-        public void e(String tag, String msg, Throwable thr, boolean method) {
+        public void e(String tag, String msg, Throwable thr, boolean detect) {
+
+        }
+
+        @Override
+        public void w(String msg) {
 
         }
 
@@ -350,7 +441,7 @@ public class Log {
         }
 
         @Override
-        public void w(String tag, String msg, boolean method) {
+        public void w(String tag, String msg, boolean detect) {
 
         }
 
@@ -360,7 +451,12 @@ public class Log {
         }
 
         @Override
-        public void w(String tag, String msg, Throwable thr, boolean method) {
+        public void w(String tag, String msg, Throwable thr, boolean detect) {
+
+        }
+
+        @Override
+        public void v(String msg) {
 
         }
 
@@ -370,7 +466,7 @@ public class Log {
         }
 
         @Override
-        public void v(String tag, String msg, boolean method) {
+        public void v(String tag, String msg, boolean detect) {
 
         }
 
@@ -380,22 +476,30 @@ public class Log {
         }
 
         @Override
-        public void v(String tag, String msg, Throwable thr, boolean method) {
+        public void v(String tag, String msg, Throwable thr, boolean detect) {
 
         }
     }
 
     /**
-     * Gets the method name where this log has been called from
+     * Gets the detect name where this log has been called from
      *
-     * @param nameNeeded true if to return the method name, false if no method name required
+     * @param tag        is the tag to be printed in the log
+     * @param detect true if to return the detect name, false if no detect name required
      * @return
      */
-    private static String methodName(boolean nameNeeded) {
-        if (!nameNeeded) {
-            return "";
+    private static String prepareTag(String tag, boolean detect) {
+        if (!detect || !sLog.mAutoName) {
+            return tag != null ? tag : "Log";
         }
-        return String.format("_%s()",
-                Thread.currentThread().getStackTrace()[METHOD_INDEX].getMethodName());
+        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+        return String.format("%s_%s()_%s", tag != null ? tag :
+                        splitClassName(trace[detect_INDEX].getClassName()),
+                trace[detect_INDEX].getMethodName(), trace[detect_INDEX].getLineNumber());
+    }
+
+    private static String splitClassName(String className) {
+        String[] slittedName = className.split(Pattern.quote("."));
+        return slittedName[slittedName.length - 1];
     }
 }
