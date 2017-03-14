@@ -16,15 +16,11 @@ import the log from this package instead of default log.
 ## Basics
 Prints the message like the android default log does.
 
-	-```java Log.e(...);``` - Error
-
-	-```java Log.v(...);``` - Verbose
-
-	-```java Log.d(...);``` - Debug
-
-	-```java Log.i(...);``` - Info
-
-	-```java Log.w(...);``` - Warning
+	 Log.e(...); = Error
+	 Log.v(...); = Verbose
+	 Log.d(...); = Debug
+	 Log.i(...); = Info
+	 Log.w(...); = Warning
 
 ##Enabling/Disabling
 To enable logs
