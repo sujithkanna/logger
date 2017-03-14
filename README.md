@@ -15,11 +15,17 @@ import com.hsalf.logger.Log;
 import the log from this package instead of default log.
 ## Basics
 Prints the message like the android default log does.
+
 	-``` Log.e(...);``` - Error
+
 	-``` Log.v(...);``` - Verbose
+
 	-``` Log.d(...);``` - Debug
+
 	-``` Log.i(...);``` - Info
+
 	-``` Log.w(...);``` - Warning
+
 ##Enabling/Disabling
 To enable logs
 ```java
@@ -79,7 +85,7 @@ public class MyApplication extends Application {
         sMyApplication = this;
         boolean debug = Log.isDebuggable(this);
         Log.enableAutoNameDetection(debug); // Highly recommended
-        This enables the auto naming only in debug mode.
+        // This enables the auto naming only in debug mode.
     }
 
     public static MyApplication getInstance() {
