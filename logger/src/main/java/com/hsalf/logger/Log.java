@@ -68,153 +68,153 @@ public class Log {
         }
     }
 
-    public static void i(String msg) {
+    public static void i(Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.i(msg);
         }
     }
 
-    public static void i(String tag, String msg) {
+    public static void i(String tag, Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.i(tag, msg);
         }
     }
 
-    public static void i(String tag, String msg, boolean detect) {
+    public static void i(String tag, Object msg, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.i(tag, msg, detect);
         }
     }
 
 
-    public static void i(String tag, String msg, Throwable thr) {
+    public static void i(String tag, Object msg, Throwable thr) {
         synchronized (TAG) {
             sLog.mBaseLog.i(tag, msg, thr);
         }
     }
 
-    public static void i(String tag, String msg, Throwable thr, boolean detect) {
+    public static void i(String tag, Object msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.i(tag, msg, thr, detect);
         }
     }
 
-    public static void d(String msg) {
+    public static void d(Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.d(msg);
         }
     }
 
-    public static void d(String tag, String msg) {
+    public static void d(String tag, Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.d(tag, msg);
         }
     }
 
-    public static void d(String tag, String msg, boolean detect) {
+    public static void d(String tag, Object msg, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.d(tag, msg, detect);
         }
     }
 
 
-    public static void d(String tag, String msg, Throwable thr) {
+    public static void d(String tag, Object msg, Throwable thr) {
         synchronized (TAG) {
             sLog.mBaseLog.d(tag, msg, thr);
         }
     }
 
-    public static void d(String tag, String msg, Throwable thr, boolean detect) {
+    public static void d(String tag, Object msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.d(tag, msg, thr, detect);
         }
     }
 
-    public static void e(String msg) {
+    public static void e(Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.e(msg);
         }
     }
 
-    public static void e(String tag, String msg) {
+    public static void e(String tag, Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.e(tag, msg);
         }
     }
 
-    public static void e(String tag, String msg, boolean detect) {
+    public static void e(String tag, Object msg, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.e(tag, msg, detect);
         }
     }
 
-    public static void e(String tag, String msg, Throwable thr) {
+    public static void e(String tag, Object msg, Throwable thr) {
         synchronized (TAG) {
             sLog.mBaseLog.e(tag, msg, thr);
         }
     }
 
-    public static void e(String tag, String msg, Throwable thr, boolean detect) {
+    public static void e(String tag, Object msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.e(tag, msg, thr, detect);
         }
     }
 
-    public static void w(String msg) {
+    public static void w(Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.w(msg);
         }
     }
 
-    public static void w(String tag, String msg) {
+    public static void w(String tag, Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.w(tag, msg);
         }
     }
 
-    public static void w(String tag, String msg, boolean detect) {
+    public static void w(String tag, Object msg, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.w(tag, msg, detect);
         }
     }
 
-    public static void w(String tag, String msg, Throwable thr) {
+    public static void w(String tag, Object msg, Throwable thr) {
         synchronized (TAG) {
             sLog.mBaseLog.w(tag, msg, thr);
         }
     }
 
-    public static void w(String tag, String msg, Throwable thr, boolean detect) {
+    public static void w(String tag, Object msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.w(tag, msg, thr, detect);
         }
     }
 
-    public static void v(String msg) {
+    public static void v(Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.v(msg);
         }
     }
 
-    public static void v(String tag, String msg) {
+    public static void v(String tag, Object msg) {
         synchronized (TAG) {
             sLog.mBaseLog.v(tag, msg);
         }
     }
 
-    public static void v(String tag, String msg, boolean detect) {
+    public static void v(String tag, Object msg, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.v(tag, msg, detect);
         }
     }
 
-    public static void v(String tag, String msg, Throwable thr) {
+    public static void v(String tag, Object msg, Throwable thr) {
         synchronized (TAG) {
             sLog.mBaseLog.v(tag, msg, thr);
         }
     }
 
-    public static void v(String tag, String msg, Throwable thr, boolean detect) {
+    public static void v(String tag, Object msg, Throwable thr, boolean detect) {
         synchronized (TAG) {
             sLog.mBaseLog.v(tag, msg, thr, detect);
         }
@@ -225,127 +225,127 @@ public class Log {
      */
     private static class LogAlive extends BaseLog {
         @Override
-        public void i(String msg) {
+        public void i(Object msg) {
             i(prepareTag(null, true), msg);
         }
 
         @Override
-        public void i(String tag, String msg) {
-            android.util.Log.i(tag, msg);
+        public void i(String tag, Object msg) {
+            android.util.Log.i(tag, getMessageString(msg));
         }
 
         @Override
-        public void i(String tag, String msg, boolean detect) {
+        public void i(String tag, Object msg, boolean detect) {
             i(prepareTag(tag, detect), msg);
         }
 
         @Override
-        public void i(String tag, String msg, Throwable thr) {
-            android.util.Log.i(tag, msg, thr);
+        public void i(String tag, Object msg, Throwable thr) {
+            android.util.Log.i(tag, getMessageString(msg), thr);
         }
 
         @Override
-        public void i(String tag, String msg, Throwable thr, boolean detect) {
+        public void i(String tag, Object msg, Throwable thr, boolean detect) {
             i(prepareTag(tag, detect), msg, thr);
         }
 
         @Override
-        public void d(String msg) {
+        public void d(Object msg) {
             d(prepareTag(null, true), msg);
         }
 
         @Override
-        public void d(String tag, String msg) {
-            android.util.Log.d(tag, msg);
+        public void d(String tag, Object msg) {
+            android.util.Log.d(tag, getMessageString(msg));
         }
 
         @Override
-        public void d(String tag, String msg, boolean detect) {
+        public void d(String tag, Object msg, boolean detect) {
             d(prepareTag(tag, detect), msg);
         }
 
         @Override
-        public void d(String tag, String msg, Throwable thr) {
-            android.util.Log.d(tag, msg, thr);
+        public void d(String tag, Object msg, Throwable thr) {
+            android.util.Log.d(tag, getMessageString(msg), thr);
         }
 
         @Override
-        public void d(String tag, String msg, Throwable thr, boolean detect) {
+        public void d(String tag, Object msg, Throwable thr, boolean detect) {
             d(prepareTag(tag, detect), msg, thr);
         }
 
         @Override
-        public void e(String msg) {
+        public void e(Object msg) {
             e(prepareTag(null, true), msg);
         }
 
         @Override
-        public void e(String tag, String msg) {
-            android.util.Log.e(tag, msg);
+        public void e(String tag, Object msg) {
+            android.util.Log.e(tag, getMessageString(msg));
         }
 
         @Override
-        public void e(String tag, String msg, boolean detect) {
+        public void e(String tag, Object msg, boolean detect) {
             e(prepareTag(tag, detect), msg);
         }
 
         @Override
-        public void e(String tag, String msg, Throwable thr) {
-            android.util.Log.e(tag, msg, thr);
+        public void e(String tag, Object msg, Throwable thr) {
+            android.util.Log.e(tag, getMessageString(msg), thr);
         }
 
         @Override
-        public void e(String tag, String msg, Throwable thr, boolean detect) {
+        public void e(String tag, Object msg, Throwable thr, boolean detect) {
             e(prepareTag(tag, detect), msg, thr);
         }
 
         @Override
-        public void w(String msg) {
+        public void w(Object msg) {
             w(prepareTag(null, true), msg);
         }
 
         @Override
-        public void w(String tag, String msg) {
-            android.util.Log.w(tag, msg);
+        public void w(String tag, Object msg) {
+            android.util.Log.w(tag, getMessageString(msg));
         }
 
         @Override
-        public void w(String tag, String msg, boolean detect) {
+        public void w(String tag, Object msg, boolean detect) {
             w(prepareTag(tag, detect), msg);
         }
 
         @Override
-        public void w(String tag, String msg, Throwable thr) {
-            android.util.Log.w(tag, msg, thr);
+        public void w(String tag, Object msg, Throwable thr) {
+            android.util.Log.w(tag, getMessageString(msg), thr);
         }
 
         @Override
-        public void w(String tag, String msg, Throwable thr, boolean detect) {
+        public void w(String tag, Object msg, Throwable thr, boolean detect) {
             w(prepareTag(tag, detect), msg, thr);
         }
 
         @Override
-        public void v(String msg) {
+        public void v(Object msg) {
             v(prepareTag(null, true), msg);
         }
 
         @Override
-        public void v(String tag, String msg) {
-            android.util.Log.v(tag, msg);
+        public void v(String tag, Object msg) {
+            android.util.Log.v(tag, getMessageString(msg));
         }
 
         @Override
-        public void v(String tag, String msg, boolean detect) {
+        public void v(String tag, Object msg, boolean detect) {
             v(prepareTag(tag, detect), msg);
         }
 
         @Override
-        public void v(String tag, String msg, Throwable thr) {
-            android.util.Log.v(tag, msg, thr);
+        public void v(String tag, Object msg, Throwable thr) {
+            android.util.Log.v(tag, getMessageString(msg), thr);
         }
 
         @Override
-        public void v(String tag, String msg, Throwable thr, boolean detect) {
+        public void v(String tag, Object msg, Throwable thr, boolean detect) {
             v(prepareTag(tag, detect), msg, thr);
         }
     }
@@ -356,127 +356,127 @@ public class Log {
     private static class LogEmpty extends BaseLog {
 
         @Override
-        public void i(String msg) {
+        public void i(Object msg) {
 
         }
 
         @Override
-        public void i(String tag, String msg) {
+        public void i(String tag, Object msg) {
 
         }
 
         @Override
-        public void i(String tag, String msg, boolean detect) {
+        public void i(String tag, Object msg, boolean detect) {
 
         }
 
         @Override
-        public void i(String tag, String msg, Throwable thr) {
+        public void i(String tag, Object msg, Throwable thr) {
 
         }
 
         @Override
-        public void i(String tag, String msg, Throwable thr, boolean detect) {
+        public void i(String tag, Object msg, Throwable thr, boolean detect) {
 
         }
 
         @Override
-        public void d(String msg) {
+        public void d(Object msg) {
 
         }
 
         @Override
-        public void d(String tag, String msg) {
+        public void d(String tag, Object msg) {
 
         }
 
         @Override
-        public void d(String tag, String msg, boolean detect) {
+        public void d(String tag, Object msg, boolean detect) {
 
         }
 
         @Override
-        public void d(String tag, String msg, Throwable thr) {
+        public void d(String tag, Object msg, Throwable thr) {
 
         }
 
         @Override
-        public void d(String tag, String msg, Throwable thr, boolean detect) {
+        public void d(String tag, Object msg, Throwable thr, boolean detect) {
 
         }
 
         @Override
-        public void e(String msg) {
+        public void e(Object msg) {
 
         }
 
         @Override
-        public void e(String tag, String msg) {
+        public void e(String tag, Object msg) {
 
         }
 
         @Override
-        public void e(String tag, String msg, boolean detect) {
+        public void e(String tag, Object msg, boolean detect) {
 
         }
 
         @Override
-        public void e(String tag, String msg, Throwable thr) {
+        public void e(String tag, Object msg, Throwable thr) {
 
         }
 
         @Override
-        public void e(String tag, String msg, Throwable thr, boolean detect) {
+        public void e(String tag, Object msg, Throwable thr, boolean detect) {
 
         }
 
         @Override
-        public void w(String msg) {
+        public void w(Object msg) {
 
         }
 
         @Override
-        public void w(String tag, String msg) {
+        public void w(String tag, Object msg) {
 
         }
 
         @Override
-        public void w(String tag, String msg, boolean detect) {
+        public void w(String tag, Object msg, boolean detect) {
 
         }
 
         @Override
-        public void w(String tag, String msg, Throwable thr) {
+        public void w(String tag, Object msg, Throwable thr) {
 
         }
 
         @Override
-        public void w(String tag, String msg, Throwable thr, boolean detect) {
+        public void w(String tag, Object msg, Throwable thr, boolean detect) {
 
         }
 
         @Override
-        public void v(String msg) {
+        public void v(Object msg) {
 
         }
 
         @Override
-        public void v(String tag, String msg) {
+        public void v(String tag, Object msg) {
 
         }
 
         @Override
-        public void v(String tag, String msg, boolean detect) {
+        public void v(String tag, Object msg, boolean detect) {
 
         }
 
         @Override
-        public void v(String tag, String msg, Throwable thr) {
+        public void v(String tag, Object msg, Throwable thr) {
 
         }
 
         @Override
-        public void v(String tag, String msg, Throwable thr, boolean detect) {
+        public void v(String tag, Object msg, Throwable thr, boolean detect) {
 
         }
     }
@@ -484,7 +484,7 @@ public class Log {
     /**
      * Gets the detect name where this log has been called from
      *
-     * @param tag        is the tag to be printed in the log
+     * @param tag    is the tag to be printed in the log
      * @param detect true if to return the detect name, false if no detect name required
      * @return
      */
@@ -501,5 +501,12 @@ public class Log {
     private static String splitClassName(String className) {
         String[] slittedName = className.split(Pattern.quote("."));
         return slittedName[slittedName.length - 1];
+    }
+
+    private static String getMessageString(Object msg) {
+        if (msg == null) {
+            return "null";
+        }
+        return msg.toString();
     }
 }
