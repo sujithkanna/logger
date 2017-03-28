@@ -5,7 +5,7 @@ A simple log helper which helps you to log in a whole different level
 ##Include library
 Including logger is very simple
 ```groovy
-compile 'com.github.sujithkanna:logger:0.3'
+compile 'com.github.sujithkanna:logger:0.4'
 ```
 add this to your dependencies in build.gradle.
 ##Import
@@ -36,6 +36,29 @@ Note: *The speciality of this is internally it wont check each and every time us
 ```java
 Log.i(TAG, "Hello log");
 ```
+you can log anything you want.
+```java
+Log.i(TAG, 12345);
+Log.i(TAG, jsonObject);
+Log.i(TAG, yourCustomPojoClass);
+```
+*To print your own pojo class you have to override the toString method inside your class*
+
+```java
+public static class MyPojo {
+    private String name;
+    private int age;
+    @Override
+    public String toString() {
+        return "Mypojo{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+```
+
 ## Log with throwable
 ```java
 try {
